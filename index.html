@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Little Life</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="#" aria-label="My Little Life home">
+        <span class="logo-icon">✿</span>
+        <span>my little <strong>life</strong></span>
+      </a>
+
+      <div class="day-pill">
+        <span>☀</span>
+        <span id="dayLabel">Monday · Day 1</span>
+      </div>
+
+      <div class="wallet">
+        <span class="coin">¢</span>
+        <span id="moneyLabel">$120</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="game-column">
+        <div class="room-heading">
+          <div>
+            <p class="eyebrow">YOUR LITTLE WORLD</p>
+            <h1 id="roomTitle">A fresh start <span>♡</span></h1>
+            <p class="subheading">A little life, one day at a time.</p>
+          </div>
+          <button id="nextDayBtn" class="primary-button">Next day ☀</button>
+        </div>
+
+        <div class="room-frame">
+          <div class="room" id="room" aria-label="Your Sim's room. Click the floor to move.">
+            <div class="window">
+              <div class="window-sky"></div>
+              <div class="window-cloud cloud-one"></div>
+              <div class="window-cloud cloud-two"></div>
+              <div class="window-cross vertical"></div>
+              <div class="window-cross horizontal"></div>
+              <div class="window-sill"></div>
+            </div>
+
+            <div class="wall-art">
+              <span>♡</span>
+              <small>you are<br>enough</small>
+            </div>
+
+            <div class="shelf">
+              <span class="shelf-book book-pink"></span>
+              <span class="shelf-book book-yellow"></span>
+              <span class="shelf-plant">♧</span>
+            </div>
+
+            <div class="floor"></div>
+            <div class="rug"></div>
+
+            <button class="furniture bed" data-action="sleep" aria-label="Sleep in bed">
+              <span class="bed-headboard"></span>
+              <span class="pillow"></span>
+              <span class="blanket"></span>
+              <span class="bed-leg leg-left"></span>
+              <span class="bed-leg leg-right"></span>
+              <span class="furniture-label">BED</span>
+            </button>
+
+            <button class="furniture desk" data-action="work" aria-label="Work at the desk">
+              <span class="desk-top"></span>
+              <span class="desk-leg desk-leg-one"></span>
+              <span class="desk-leg desk-leg-two"></span>
+              <span class="monitor">
+                <span class="monitor-screen">♡</span>
+                <span class="monitor-stand"></span>
+              </span>
+              <span class="desk-mug">☕</span>
+              <span class="furniture-label">DESK</span>
+            </button>
+
+            <button class="furniture fridge" data-action="eat" aria-label="Get food from the fridge">
+              <span class="fridge-top"></span>
+              <span class="fridge-bottom"></span>
+              <span class="fridge-handle handle-one"></span>
+              <span class="fridge-handle handle-two"></span>
+              <span class="furniture-label">FRIDGE</span>
+            </button>
+
+            <button class="furniture shower" data-action="shower" aria-label="Take a shower">
+              <span class="shower-wall"></span>
+              <span class="shower-head">⌁</span>
+              <span class="shower-tray"></span>
+              <span class="furniture-label">SHOWER</span>
+            </button>
+
+            <button class="furniture plant" data-action="plant" aria-label="Water the plant">
+              <span class="plant-leaves">♣</span>
+              <span class="plant-pot"></span>
+              <span class="furniture-label">PLANT</span>
+            </button>
+
+            <button class="furniture phone" data-action="phone" aria-label="Use your phone">
+              <span class="phone-body"><span>♡</span></span>
+              <span class="furniture-label">PHONE</span>
+            </button>
+
+            <div id="decorations" class="decorations" aria-hidden="true"></div>
+
+            <div id="simCharacter" class="sim-character" aria-label="Your Sim">
+              <div class="sim-shadow"></div>
+              <div class="sim-art" id="simArt"></div>
+            </div>
+
+            <div id="thoughtBubble" class="thought-bubble" aria-live="polite"></div>
+
+            <div class="room-hint" id="roomHint">
+              <span>↖</span> Click anywhere on the floor to walk
+            </div>
+          </div>
+        </div>
+
+        <div class="interaction-bar">
+          <div class="interaction-icon">♡</div>
+          <div class="interaction-copy">
+            <strong id="statusTitle">Just chilling</strong>
+            <span id="statusText">Your story is just beginning.</span>
+          </div>
+          <div id="moodBadge" class="mood-badge">Feeling okay</div>
+        </div>
+
+        <div class="needs-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">HOW ARE THEY DOING?</p>
+              <h2>Your Sim's needs</h2>
+            </div>
+            <span class="tiny-note">Take care of yourself ♡</span>
+          </div>
+
+          <div class="needs-grid">
+            <div class="need-card">
+              <div class="need-top"><span>⚡</span><strong>Energy</strong><b id="energyValue">85%</b></div>
+              <div class="need-track"><div id="energyBar" class="need-fill energy-fill"></div></div>
+            </div>
+            <div class="need-card">
+              <div class="need-top"><span>🍓</span><strong>Hunger</strong><b id="hungerValue">75%</b></div>
+              <div class="need-track"><div id="hungerBar" class="need-fill hunger-fill"></div></div>
+            </div>
+            <div class="need-card">
+              <div class="need-top"><span>🫧</span><strong>Hygiene</strong><b id="hygieneValue">80%</b></div>
+              <div class="need-track"><div id="hygieneBar" class="need-fill hygiene-fill"></div></div>
+            </div>
+            <div class="need-card">
+              <div class="need-top"><span>🎀</span><strong>Fun</strong><b id="funValue">70%</b></div>
+              <div class="need-track"><div id="funBar" class="need-fill fun-fill"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel profile-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">MEET YOUR SIM</p>
+              <h2 id="profileName">Your Sim</h2>
+            </div>
+            <span class="online-dot"></span>
+          </div>
+          <div class="profile-content">
+            <div class="portrait" id="portrait"></div>
+            <div class="profile-details">
+              <span class="personality-tag" id="personalityTag">Little dreamer</span>
+              <p id="profileDescription">Making memories, finding joy in the little things.</p>
+              <div class="profile-stat"><span>Days lived</span><strong id="daysLived">1</strong></div>
+              <div class="profile-stat"><span>Lifetime earnings</span><strong id="lifetimeEarnings">$0</strong></div>
+            </div>
+          </div>
+          <button id="editSimBtn" class="secondary-button full-button">✎ Customize your Sim</button>
+        </section>
+
+        <section class="panel actions-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">MAKE A MOMENT</p>
+              <h2>What should we do?</h2>
+            </div>
+          </div>
+          <div class="action-grid">
+            <button class="action-tile" data-action="eat"><span>🍓</span><b>Eat</b><small>Get a snack</small></button>
+            <button class="action-tile" data-action="sleep"><span>🛏️</span><b>Sleep</b><small>Rest up</small></button>
+            <button class="action-tile" data-action="shower"><span>🫧</span><b>Shower</b><small>Freshen up</small></button>
+            <button class="action-tile" data-action="phone"><span>📱</span><b>Have fun</b><small>Scroll a little</small></button>
+            <button class="action-tile" data-action="work"><span>💻</span><b>Work</b><small>Earn $40</small></button>
+            <button class="action-tile" data-action="plant"><span>🪴</span><b>Care</b><small>Water a plant</small></button>
+          </div>
+        </section>
+
+        <section class="panel shop-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">LITTLE TREASURES</p>
+              <h2>Room shop</h2>
+            </div>
+            <span class="shop-sparkle">✧</span>
+          </div>
+          <div class="shop-list">
+            <div class="shop-item">
+              <div class="shop-emoji">🌷</div>
+              <div class="shop-info"><strong>Pink flowers</strong><small>A little colour</small></div>
+              <button class="buy-button" data-buy="flowers" data-price="20">$20</button>
+            </div>
+            <div class="shop-item">
+              <div class="shop-emoji">🧸</div>
+              <div class="shop-info"><strong>Teddy bear</strong><small>A cosy friend</small></div>
+              <button class="buy-button" data-buy="teddy" data-price="35">$35</button>
+            </div>
+            <div class="shop-item">
+              <div class="shop-emoji">🛋️</div>
+              <div class="shop-info"><strong>Cosy sofa</strong><small>Make room to relax</small></div>
+              <button class="buy-button" data-buy="sofa" data-price="60">$60</button>
+            </div>
+          </div>
+          <p id="shopMessage" class="shop-message">Make your space feel like you.</p>
+        </section>
+
+        <section class="panel journal-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">LITTLE MEMORIES</p>
+              <h2>Daily journal</h2>
+            </div>
+            <span>📔</span>
+          </div>
+          <p id="journalText" class="journal-text">A new day, a new beginning. What will happen today?</p>
+          <div id="journalEntries" class="journal-entries"></div>
+        </section>
+
+        <div class="bottom-buttons">
+          <button id="resetBtn" class="text-button">↻ Start a new life</button>
+          <span>Made with ♡</span>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer-note">MY LITTLE LIFE · SLOW DOWN, MAKE MEMORIES, BE YOU.</footer>
+  </div>
+
+  <div id="creatorModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="creatorTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="creator-card">
+      <button class="close-button" data-close-modal aria-label="Close">×</button>
+      <p class="eyebrow">A LITTLE BIT OF YOU</p>
+      <h2 id="creatorTitle">Create your Sim ♡</h2>
+      <p class="creator-intro">Make someone who feels like you, or someone completely new.</p>
+
+      <div class="creator-preview" id="creatorPreview"></div>
+
+      <form id="creatorForm">
+        <label for="simName">Name</label>
+        <input id="simName" name="simName" maxlength="22" placeholder="Give your Sim a name" required>
+
+        <div class="form-row">
+          <div>
+            <label for="skinTone">Skin tone</label>
+            <select id="skinTone" name="skinTone">
+              <option value="#f8d5bd">Fair peach</option>
+              <option value="#e8b894">Warm beige</option>
+              <option value="#c98760">Caramel</option>
+              <option value="#985b3f">Brown</option>
+              <option value="#603b2e">Deep brown</option>
+              <option value="#3b241e">Rich deep</option>
+            </select>
+          </div>
+          <div>
+            <label for="hairStyle">Hairstyle</label>
+            <select id="hairStyle" name="hairStyle">
+              <option value="curly">Curly</option>
+              <option value="afro">Afro</option>
+              <option value="long">Long waves</option>
+              <option value="bob">Bob</option>
+              <option value="bun">Bun</option>
+              <option value="locs">Locs</option>
+              <option value="short">Short</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="hairColor">Hair colour</label>
+            <select id="hairColor" name="hairColor">
+              <option value="#30201d">Natural black</option>
+              <option value="#513328">Dark brown</option>
+              <option value="#8b542f">Warm brown</option>
+              <option value="#c58a4c">Honey brown</option>
+              <option value="#b95c64">Rose brown</option>
+              <option value="#292b3c">Blue black</option>
+            </select>
+          </div>
+          <div>
+            <label for="outfitColor">Outfit colour</label>
+            <select id="outfitColor" name="outfitColor">
+              <option value="#e99ab5">Soft pink</option>
+              <option value="#8ba8d9">Baby blue</option>
+              <option value="#b4c69a">Sage green</option>
+              <option value="#d9bd83">Butter yellow</option>
+              <option value="#b19acb">Lilac</option>
+              <option value="#f1eee8">Cream</option>
+              <option value="#49414d">Charcoal</option>
+              <option value="#b96764">Terracotta</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="outfitStyle">Outfit</label>
+        <select id="outfitStyle" name="outfitStyle">
+          <option value="casual">Casual tee and trousers</option>
+          <option value="dress">Cute dress</option>
+          <option value="hoodie">Oversized hoodie</option>
+          <option value="overalls">Overalls</option>
+        </select>
+
+        <button type="submit" class="primary-button full-button">That's my Sim ✨</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
